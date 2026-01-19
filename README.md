@@ -25,11 +25,4 @@ T:<temperatura>;H:<wilgotność>
 Przykład:
 T:23.5;H:46.0
 
-## 4. Uruchomienie
 
-**Pico:** wgrać MicroPython, skopiować `nadawczaPICO.py`, podłączyć DHT11, LED i HC-12, uruchomić.  
-**RPi4:** podłączyć HC-12, OLED, LED, buzzer; zainstalować biblioteki OLED; uruchomić `odbiorczaRP4.py`.
-
-## 5. Informacje
-
-Projekt edukacyjny – swobodny do modyfikacji.
