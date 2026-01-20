@@ -1,4 +1,3 @@
-# stacja odbiorcza
 import time
 import RPi.GPIO as GPIO
 import serial
@@ -23,7 +22,6 @@ OLED_DC_PIN = board.D25
 OLED_RESET_PIN = board.D24
 OLED_CS_PIN = board.CE0
 
-# port szeregowy z HC-12
 SERIAL_PORT = "/dev/serial0"
 SERIAL_BAUD = 9600
 
@@ -59,7 +57,6 @@ font = ImageFont.load_default()
 
 
 def blink_led():
-    """Krótkie mignięcie diody przy każdym poprawnym odebraniu danych."""
     GPIO.output(LED_PIN, GPIO.HIGH)
     time.sleep(0.1)
     GPIO.output(LED_PIN, GPIO.LOW)
@@ -68,7 +65,6 @@ def set_buzzer(on: bool):
     GPIO.output(BUZZER_PIN, GPIO.HIGH if on else GPIO.LOW)
 
 def update_oled(temperature, humidity, alarm, ok_read=True):
-    """Aktualizacja wyświetlacza OLED."""
     draw.rectangle((0, 0, OLED_WIDTH, OLED_HEIGHT), outline=0, fill=0)
 
     if ok_read:
@@ -88,11 +84,7 @@ def update_oled(temperature, humidity, alarm, ok_read=True):
     oled.show()
 
 def parse_line(line: str):
-    """
-    Oczekiwany format z Pico:
-    T:23.0;H:44.0
-    Zwraca (ok, temp, hum)
-    """
+    
     try:
         line = line.strip()
         if not line:
@@ -102,8 +94,8 @@ def parse_line(line: str):
         if len(parts) != 2:
             return False, None, None
 
-        t_part = parts[0]  # "T:23.0"
-        h_part = parts[1]  # "H:44.0"
+        t_part = parts[0]  
+        h_part = parts[1]  
 
         if not (t_part.startswith("T:") and h_part.startswith("H:")):
             return False, None, None
@@ -115,10 +107,7 @@ def parse_line(line: str):
         return False, None, None
 
 def read_remote_with_retries(retries=5):
-    """
-    Próbuje kilka razy odczytać linijkę z HC-12
-    i sparsować ją do (temp, hum).
-    """
+    
     for _ in range(retries):
         line = ser.readline().decode(errors="ignore").strip()
         if not line:
@@ -165,4 +154,5 @@ finally:
     oled.fill(0)
     oled.show()
     ser.close()
+
 
